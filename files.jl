@@ -1,3 +1,5 @@
+#using ZipFile
+
 """
     readdirext(location;filterstring=nothing,subdirectories=false,filesonly=false)
 
@@ -5,8 +7,8 @@ Extends the readdir() function to allow filtering and including subdirectories, 
 
 See also: readdir
 """
-function readdirext(location;filterstring=nothing,subdirectories=false,filesonly=false)
-    list = readdir(location)
+function readdirext(location;filterstring=nothing,subdirectories=false,filesonly=false, join=false)
+    list = readdir(location,join=join)
     if subdirectories || filesonly
         returnlist = []
         for item in list
@@ -30,3 +32,22 @@ function readdirext(location;filterstring=nothing,subdirectories=false,filesonly
     end
     returnlist
 end
+
+
+function renamefiles(directory,regex,substring)
+    files = readdir(directory,join = true)
+    dirs = filter(x->occursin(regex,x),files)
+    newdirs = replace.(dirs,regex=>substring)
+    for (i,file) in enumerate(dirs)
+        mv(file,newdirs[i])
+    end
+end
+
+renamefiles(
+    raw"F:\Boal & Co\Pensions\CORPORATE PENSIONS\Templates, Procedures and Standard Documents\IPP Reporting\Reports",
+    r"(\d\d\d\d)(\d\d)(\d\d)",
+    s"\1-\2-\3")
+
+
+replace("20211231",  r"(\d\d\d\d)(\d\d)(\d\d)"=>       s"\1-\2-\3")
+
