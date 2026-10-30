@@ -1,9 +1,9 @@
 using Pkg, TOML
 
 # 🔍 EDIT THIS: Set the target package you want to hunt down
-target_package = "OpenSSL_jll"
+target_package = "Git_jll"
 
-manifest_usage_path = joinpath(Pkg.depot_path(), "logs", "manifest_usage.toml")
+manifest_usage_path = joinpath(DEPOT_PATH[1], "logs", "manifest_usage.toml")
 
 if isfile(manifest_usage_path)
     # 1. Parse all known environments tracking on your machine
